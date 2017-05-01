@@ -1,0 +1,11 @@
+sudo: required
+language: python
+services:
+  - docker
+script:
+  -  docker build -t kalyzee/transcoder .
+after_success:
+  - if [ "$TRAVIS_BRANCH" == "master" ]; then
+      docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+      docker push kalyzee/nginx-rtmp;
+    fi
